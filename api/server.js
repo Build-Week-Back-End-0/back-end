@@ -1,29 +1,50 @@
 const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
+const session = require('express-session')
+const store = require('connect-session-knex')(session);
+const authRouter = require("./auth/auth-router.js");
+const usersRouter = require("./users/users-router.js");
 
-function getAllUsers() { return db('users') }
+const server = express();
 
-async function insertUser(user) {
-  // WITH POSTGRES WE CAN PASS A "RETURNING ARRAY" AS 2ND ARGUMENT TO knex.insert/update
-  // AND OBTAIN WHATEVER COLUMNS WE NEED FROM THE NEWLY CREATED/UPDATED RECORD
-  // UNLIKE SQLITE WHICH FORCES US DO DO A 2ND DB CALL
-  const [newUserObject] = await db('users').insert(user, ['user_id', 'username', 'password'])
-  return newUserObject // { user_id: 7, username: 'foo', password: 'xxxxxxx' }
-}
+server.use(
+  session({
+    name: 'cookie',
+    secret: 'nobody tosses a dwarf!',
+    cookie: {
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+        secure: false,
+        httpOnly: true,
+    },
+    resave: false,
+    saveUninitialized: false,
 
-const server = express()
+    store: new store({
+        knex: require('../data/db-config.js'),
+        tablename: 'sessions',
+        sidfieldname: 'sid',
+        createtable: true,
+        clearInterval: 1000 * 60 * 60,
+  }),
+}));
 
 server.use(express.json())
 server.use(helmet())
 server.use(cors())
 
-server.get('/api/users', async (req, res) => {
-  res.json(await getAllUsers())
-})
+server.use("/api/users", usersRouter);
+server.use("/api/auth", authRouter);
 
-server.post('/api/users', async (req, res) => {
-  res.status(201).json(await insertUser(req.body))
-})
+server.get("/", (req, res) => {
+    res.json({ api: "up" });
+});
+
+server.use((err, req, res, next) => { // eslint-disable-line
+    res.status(err.status || 500).json({
+      message: err.message,
+      stack: err.stack,
+    });
+});
 
 module.exports = server
