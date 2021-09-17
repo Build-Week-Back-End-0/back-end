@@ -22,11 +22,11 @@ router.get("/:id", (req, res, next) => {
 router.put("/:id", (req, res, next) => {
   const { id } = req.params;
   Plants.update(id, req.body)
-    .then(updated => {
-      Plants.getById(updated)
-        .then(currentPlant => {
-          res.status(200).json(currentPlant)
-        }) 
+    .then(()=> {
+        Plants.getById(id)
+            .then(updatedPlant => {
+                res.status(200).json(updatedPlant)
+            })
     })
     .catch(next);
 })
@@ -35,7 +35,7 @@ router.delete("/:id", (req, res, next) => {
     const { id } = req.params;
     Plants.remove(id)
         .then(removed => {
-            res.status(200).json(removed)
+            res.status(200).json({message: "disintegrated"})
         })
         .catch(next);
 })
