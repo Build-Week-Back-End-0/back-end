@@ -16,6 +16,10 @@ function update(plant_id, changes) {
   return db('plants').where('plant_id', plant_id).first().update(changes)
 }
 
+function remove(plant_id) {
+  return db('plants').where('plant_id', plant_id).first().del();
+}
+
 async function add(user) {
   const [id] = await db('plants').insert(user)
   return getById(id);
@@ -27,5 +31,6 @@ module.exports = {
   getById,
   add,
   update,
+  remove,
 };
  
