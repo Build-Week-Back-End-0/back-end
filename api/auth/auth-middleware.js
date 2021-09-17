@@ -27,17 +27,41 @@ function checkUsernameFree(req, res, next) {
         .catch(next)
 }
 
+const noMissingInformation = (req, res, next) => {
+    const { username, password, phone_number } = req.body;
+    if (!username || !password || !phone_number) {
+        res.status(422).json({message: "Username, password, and mobile number are required."})
+    } else {
+        next()
+    }
+}
+
 const noMissingCredentials = (req, res, next) => {
-    const { username, password } = req.body;
-    if (username === undefined || !password) {
+    const { username, password} = req.body;
+    if (!username || !password) {
         res.status(422).json({message: "Both username and password are required."})
     } else {
         next()
     }
 }
 
+function checkPhoneNumberFree(req, res, next) {
+    const { phone_number } = req.body;
+    Users.getBy({ phone_number })
+        .then(exists => {
+            if (exists.length) {
+                res.status(422).json({message: "Phone number already in use."})
+            } else {
+                next();
+            }
+        })
+        .catch(next)
+}
+
 module.exports = {
     checkUsernameExists,
-    checkUsernameFree, 
+    checkUsernameFree,
+    noMissingInformation,
     noMissingCredentials,
+    checkPhoneNumberFree,
 }
