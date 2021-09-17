@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { checkUsernameExists, checkUsernameFree, noMissingInformation, noMissingCredentials, checkPhoneNumberFree } = require('./auth-middleware');
+const { checkUsernameExists, checkUsernameFree, noMissingInformation, noMissingCredentials, checkPhoneNumberFree, checkPhoneNumberLength } = require('./auth-middleware');
 const Users = require('../users/users-model');
 const bcrypt = require('bcryptjs');
 const tokenBuilder = require('./token-builder');
 
-router.post("/register", noMissingInformation, checkUsernameFree, checkPhoneNumberFree, (req, res, next) => {
+router.post("/register", noMissingInformation, checkUsernameFree, checkPhoneNumberLength, checkPhoneNumberFree, (req, res, next) => {
     const user = req.body;
     const rounds = process.env.BCRYPT_ROUNDS || 8;
     const hash = bcrypt.hashSync(user.password, rounds);

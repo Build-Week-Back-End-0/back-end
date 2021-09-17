@@ -58,10 +58,20 @@ function checkPhoneNumberFree(req, res, next) {
         .catch(next)
 }
 
+function checkPhoneNumberLength(req, res, next) {
+    const { phone_number } = req.body;
+    if(phone_number.length !== 10) {
+      res.status(422).json({message: "Please enter a valid phone number (10 digits)."})
+    } else {
+      next();
+    }
+  }
+
 module.exports = {
     checkUsernameExists,
     checkUsernameFree,
     noMissingInformation,
     noMissingCredentials,
     checkPhoneNumberFree,
+    checkPhoneNumberLength
 }
