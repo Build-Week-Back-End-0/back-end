@@ -18,15 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Build-Week-Back-End-0/back-end.git"
+    "url": "git+https://github.com/Build-Week-Water-Plants-1/back-end.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Build-Week-Back-End-0/back-end/issues"
+    "url": "https://github.com/Build-Week-Water-Plants-1/back-end/issues"
   },
-  "homepage": "https://github.com/Build-Week-Back-End-0/back-end#readme",
+  "homepage": "https://github.com/Build-Week-Water-Plants-1/back-end#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-session-knex": "^2.1.0",
