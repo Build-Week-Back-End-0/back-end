@@ -27,7 +27,9 @@ router.put("/:id", (req, res, next) => {
           res.status(200).json(currentUser)
         }) 
     })
-    .catch(next)
+    .catch(() => {
+      res.status(500).json({message: "Username or phone number is taken."})
+    })
 })
 
 module.exports = router;
