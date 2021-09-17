@@ -5,6 +5,7 @@ module.exports = function (user) {
   const payload = {
     subject: user.user_id,
     username: user.username,
+    phone_number: user.phone_number,
   }
   const options = {
     expiresIn: '1d'
