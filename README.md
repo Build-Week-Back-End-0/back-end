@@ -29,4 +29,4 @@ PUT - `/plants/:id`
 
 POST - `/plants (required plant properties: nickname, species, h2oFrequency)`
 
-DELETE - `plants/:id`
+DELETE - `/plants/:id`
