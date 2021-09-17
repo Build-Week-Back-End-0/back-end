@@ -5,7 +5,7 @@ const checkUsernameExists = (req, res, next) => {
     Users.getBy({ username })
         .then(exists => {
             if (!exists.length) {
-                next({status: 401, message: "Invalid credentials"})
+                res.status(401).json({message: "Invalid credentials"})
             } else {
                 req.user = exists[0]
                 next();
@@ -19,7 +19,7 @@ function checkUsernameFree(req, res, next) {
     Users.getBy({ username })
         .then(exists => {
             if (exists.length) {
-                next({status: 422, message: "Username taken"})
+                res.status(422).json({message: "Username taken"})
             } else {
                 next();
             }
@@ -27,16 +27,17 @@ function checkUsernameFree(req, res, next) {
         .catch(next)
 }
 
-function checkPasswordLength(req, res, next) {
-    if(!req.body.password || req.body.password.length <= 4) {
-      res.status(422).json({message: "Password must be longer than 4 chars"})
+const noMissingCredentials = (req, res, next) => {
+    const { username, password } = req.body;
+    if (username === undefined || !password) {
+        res.status(422).json({message: "Both username and password are required."})
     } else {
-      next();
+        next()
     }
 }
 
 module.exports = {
     checkUsernameExists,
     checkUsernameFree, 
-    checkPasswordLength,
+    noMissingCredentials,
 }

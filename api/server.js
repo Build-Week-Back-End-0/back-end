@@ -21,7 +21,7 @@ server.use(
     saveUninitialized: false,
 
     store: new store({
-        knex: require('../data/db-config.js'),
+        knex: require('./data/db-config'),
         tablename: 'sessions',
         sidfieldname: 'sid',
         createtable: true,
@@ -38,7 +38,7 @@ server.use("/api/auth", authRouter);
 
 server.get("/", (req, res) => {
     res.json({ api: "up" });
-});
+}); 
 
 server.use((err, req, res, next) => { // eslint-disable-line
     res.status(err.status || 500).json({

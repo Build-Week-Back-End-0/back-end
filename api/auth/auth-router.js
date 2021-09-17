@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { checkUsernameExists, checkPasswordLength, checkUsernameFree } = require('./auth-middleware');
+const { checkUsernameExists, checkUsernameFree, noMissingCredentials } = require('./auth-middleware');
 const Users = require('../users/users-model');
 const bcrypt = require('bcryptjs');
 const tokenBuilder = require('./token-builder');
 
-router.post("/register", checkPasswordLength, checkUsernameFree, (req, res, next) => {
+router.post("/register", noMissingCredentials, checkUsernameFree, (req, res, next) => {
     const user = req.body;
     const rounds = process.env.BCRYPT_ROUNDS || 8;
     const hash = bcrypt.hashSync(user.password, rounds);
@@ -17,14 +17,14 @@ router.post("/register", checkPasswordLength, checkUsernameFree, (req, res, next
       .catch(next);
 });
 
-router.post("/login", checkUsernameExists, (req, res, next) => {
+router.post("/login", noMissingCredentials, checkUsernameExists, (req, res) => {
     const { username, password } = req.body;
     if (bcrypt.compareSync(password, req.user.password)) {
         const token = tokenBuilder(req.user)
         req.session.user = req.user
         res.status(200).json({message: `Welcome ${username}!`, token})
     } else {
-        next({status: 401, message: "Invalid credentials"})
+        res.status(401).json({message: "Invalid credentials"})
     }
 })
 
