@@ -1,20 +1,32 @@
 # back-end
-Water My Plants Endpoints:
+**Water My Plants Endpoints:**
+
 API: https://watermyplants01.herokuapp.com/api/
 
-Auth: /api/auth
-HTTP Methods:
-GET - /logout
-POST - /register (required user properties: username, password, phone_number), /login (required properties: username, password)
+**Auth:**
 
-Users: /api
-HTTP Methods:
-GET - /users, /user/:id
-PUT - /users/:id
+*HTTP Methods:*
 
-Plants: /api
-HTTP Methods:
-GET - /plants, /plants/:id
-PUT - /plants/:id
-POST - /plants (required plant properties: nickname, species, h2oFrequency)
-DELETE - plants/:id
+GET - `/auth/logout`
+
+POST - `/auth/register (required user properties: username, password, phone_number), /auth/login (required properties: username, password)`
+
+**Users:**
+
+*HTTP Methods:*
+
+GET - `/users, /user/:id`
+
+PUT - `/users/:id`
+
+**Plants:**
+
+*HTTP Methods:*
+
+GET - `/plants, /plants/:id`
+
+PUT - `/plants/:id`
+
+POST - `/plants (required plant properties: nickname, species, h2oFrequency)`
+
+DELETE - `plants/:id`
