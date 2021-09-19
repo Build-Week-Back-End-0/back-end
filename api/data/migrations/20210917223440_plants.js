@@ -4,7 +4,7 @@ exports.up = async function(knex) {
         plants.string('nickname', 128).notNullable()
         plants.string('species', 128).notNullable()
         plants.decimal('h2oFrequency').notNullable()
-        plants.string('image', 128)
+        plants.string('image', 600)
 
         plants.integer('user_id')
             .unsigned()
