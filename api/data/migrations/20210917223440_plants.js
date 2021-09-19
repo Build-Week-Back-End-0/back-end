@@ -5,6 +5,14 @@ exports.up = async function(knex) {
         plants.string('species', 128).notNullable()
         plants.decimal('h2oFrequency').notNullable()
         plants.string('image', 128)
+
+        plants.integer('user_id')
+            .unsigned()
+            .notNullable()
+            .references('user_id')
+            .inTable('users')
+            .onDelete('RESTRICT')
+            .onUpdate('RESTRICT')
     })
 };
 

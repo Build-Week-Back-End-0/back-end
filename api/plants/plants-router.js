@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Plants = require('./plants-model');
-const { noMissingInformation } = require('./plants-middleware');
+const { noMissingInformation, checkUserIdExists } = require('./plants-middleware');
 
 router.get("/", (req, res, next) => {
   Plants.get()
@@ -40,7 +40,7 @@ router.delete("/:id", (req, res, next) => {
         .catch(next);
 })
 
-router.post("/", noMissingInformation, (req, res, next) => {
+router.post("/", noMissingInformation, checkUserIdExists, (req, res, next) => {
     const plant = req.body;
   
     Plants.add(plant)

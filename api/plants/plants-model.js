@@ -20,8 +20,8 @@ function remove(plant_id) {
   return db('plants').where('plant_id', plant_id).first().del();
 }
 
-async function add(user) {
-  const [id] = await db('plants').insert(user)
+async function add(plant) {
+  const [id] = await db('plants').insert(plant)
   return getById(id);
 }
 
