@@ -27,6 +27,6 @@ GET - `/plants, /plants/:id`
 
 PUT - `/plants/:id`
 
-POST - `/plants (required plant properties: nickname, species, h2oFrequency)`
+POST - `/plants (required plant properties: user_id, nickname, species, h2oFrequency)`
 
 DELETE - `/plants/:id`
