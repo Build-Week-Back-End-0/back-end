@@ -20,9 +20,9 @@ function remove(plant_id) {
   return db('plants').where('plant_id', plant_id).first().del();
 }
 
-async function add(plant) {
-  const [id] = await db('plants').insert(plant)
-  return getById(id);
+async function add(newPlant) {
+  const [plant] = await db('plants').insert(newPlant, ['plant_id', 'nickname', 'species', 'h2oFrequency', 'image', 'user_id'])
+  return plant;
 }
 
 module.exports = {

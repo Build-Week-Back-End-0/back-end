@@ -12,19 +12,29 @@ function getById(user_id) {
   return db('users').where('user_id', user_id).first();
 }
 
+function getUserPlants(user_id) {
+  return db("users")
+    .leftJoin('plants', 'users.user_id', 'plants.user_id')
+    .where("users.user_id", user_id)
+    .select('h2oFrequency', 'image', 'nickname', 'plant_id', 'species')
+    .orderBy('plant_id')
+}
+
+
 function update(user_id, changes) {
   return db('users').where('user_id', user_id).first().update(changes)
 }
 
-async function add(user) {
-  const [id] = await db('users').insert(user)
-  return getById(id);
+async function add(newUser) {
+  const [user] = await db('users').insert(newUser, ['user_id', 'username', 'phone_number'])
+  return user;
 }
 
 module.exports = {
   get,
   getBy,
   getById,
+  getUserPlants,
   add,
   update,
 };
