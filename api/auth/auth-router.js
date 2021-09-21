@@ -22,11 +22,12 @@ router.post("/login", noMissingCredentials, checkUsernameExists, (req, res) => {
     if (bcrypt.compareSync(password, req.user.password)) {
         const token = tokenBuilder(req.user)
         req.session.user = req.user
-        res.status(200).json({message: `Welcome ${username}!`, token})
+        const { user_id } = req.user;
+        res.status(200).json({message: `Welcome ${username}!`, user_id, token})
     } else {
         res.status(401).json({message: "Invalid credentials"})
     }
-})
+}) 
 
 router.get("/logout", (req, res, next) => {
     if (req.session.user) {
