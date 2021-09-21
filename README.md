@@ -15,7 +15,7 @@ POST - `/auth/register (required user properties: username, password, phone_numb
 
 *HTTP Methods:*
 
-GET - `/users, /users/:id`
+GET - `/users, /users/:id, /users/:id/plants`
 
 PUT - `/users/:id`
 
